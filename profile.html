@@ -1,0 +1,328 @@
+
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:white;
+  min-height:100vh;
+}
+
+/* NAVBAR */
+.navbar{
+  height:60px;
+  background:#111;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 25px;
+  border-bottom:1px solid #222;
+}
+
+.brand{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.back-btn{
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#334155;
+  color:white;
+}
+
+.back-btn:hover{
+  background:#475569;
+}
+
+/* MAIN */
+.wrapper{
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.profile-card{
+  background:#1e293b;
+  border-radius:22px;
+  padding:35px;
+  box-shadow:0 0 25px rgba(0,0,0,0.35);
+}
+
+.top{
+  display:flex;
+  gap:30px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.avatar{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  object-fit:cover;
+  border:5px solid #e6d8a2;
+  background:#0f172a;
+}
+
+.name-box h1{
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.name-box p{
+  color:#cbd5e1;
+  font-size:15px;
+}
+
+.stats{
+  margin-top:30px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.box{
+  background:#0f172a;
+  padding:20px;
+  border-radius:18px;
+}
+
+.box h3{
+  color:#e6d8a2;
+  margin-bottom:10px;
+  font-size:18px;
+}
+
+.box p{
+  color:#e2e8f0;
+  line-height:1.5;
+}
+
+/* BUTTONS */
+.actions{
+  margin-top:30px;
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.actions button{
+  padding:12px 20px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.edit-btn{
+  background:#e6d8a2;
+}
+
+.logout-btn{
+  background:#ef4444;
+  color:white;
+}
+
+.actions button:hover{
+  transform:translateY(-2px);
+}
+
+/* EDIT MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-box{
+  background:#1e293b;
+  width:380px;
+  padding:25px;
+  border-radius:20px;
+}
+
+.modal-box h2{
+  margin-bottom:15px;
+}
+
+.modal-box input,
+.modal-box textarea{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+  background:#0f172a;
+  color:white;
+}
+
+.modal-buttons{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+}
+
+.modal-buttons button{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.save-btn{
+  background:#22c55e;
+}
+
+.cancel-btn{
+  background:#475569;
+  color:white;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">study2gether</div>
+  <button class="back-btn" onclick="goDashboard()">Dashboard</button>
+</nav>
+
+<div class="wrapper">
+
+  <div class="profile-card">
+
+    <div class="top">
+      <img id="avatar" class="avatar" src="" alt="avatar">
+
+      <div class="name-box">
+        <h1 id="username">Username</h1>
+        <p id="email">email@gmail.com</p>
+      </div>
+    </div>
+
+    <div class="stats">
+
+      <div class="box">
+        <h3>Age</h3>
+        <p id="age">18</p>
+      </div>
+
+      <div class="box">
+        <h3>Interests</h3>
+        <p id="interests">Coding, Music</p>
+      </div>
+
+      <div class="box">
+        <h3>Study Time</h3>
+        <p id="studyTime">0 hrs</p>
+      </div>
+
+      <div class="box">
+        <h3>Groups Joined</h3>
+        <p id="groupsJoined">0</p>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="edit-btn" onclick="openEdit()">Edit Profile</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- EDIT POPUP -->
+<div class="modal" id="editModal">
+  <div class="modal-box">
+    <h2>Edit Profile</h2>
+
+    <input type="text" id="editName" placeholder="Username">
+    <input type="number" id="editAge" placeholder="Age">
+    <textarea id="editInterests" placeholder="Interests"></textarea>
+
+    <div class="modal-buttons">
+      <button class="save-btn" onclick="saveEdit()">Save</button>
+      <button class="cancel-btn" onclick="closeEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function loadProfile(){
+
+const raw = localStorage.getItem("profileData");
+
+if(!raw){
+alert("No profile data found");
+window.location.href = "profile-setup.html";
+return;
+}
+
+const data = JSON.parse(raw);
+
+document.getElementById("username").innerText =
+data.username || "User";
+
+document.getElementById("email").innerText =
+data.email || "No Email";
+
+document.getElementById("age").innerText =
+data.age || "Not Set";
+
+document.getElementById("interests").innerText =
+data.interest || "None";
+
+document.getElementById("avatar").src =
+data.avatar || "char1.jpeg";
+
+document.getElementById("studyTime").innerText =
+data.studyTime || "0 hrs";
+
+document.getElementById("groupsJoined").innerText =
+data.groups || "0";
+}
+
+loadProfile();
+
+
+function goDashboard(){
+window.location.href="dashboard.html";
+}
+
+function logout(){
+localStorage.clear();
+window.location.href="login.html";
+}
+function openEdit(){
+document.getElementById("editModal").style.display="flex";
+}
+
+function closeEdit(){
+document.getElementById("editModal").style.display="none";
+}
+
+</script>
+</body>
+</html>
+```

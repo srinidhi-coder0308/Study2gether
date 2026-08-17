@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile Setup</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+background-image:url(doodle.jpg.jpeg);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+color:rgb(17, 17, 17);
+font-family:Arial;
+}
+
+.box{
+width:500px;
+background:#e5e9b0;
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 30px rgba(255,255,255,0.08);
+}
+
+h2{
+text-align:center;
+margin-bottom:25px;
+}
+
+input,select{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+}
+
+.avatar-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:15px;
+}
+
+.avatar{
+background:#1e293b;
+border:2px solid transparent;
+border-radius:16px;
+padding:10px;
+cursor:pointer;
+transition:.2s;
+height:100px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.avatar img{
+width:70px;
+height:70px;
+object-fit:contain;
+}
+
+.avatar:hover{
+transform:scale(1.05);
+}
+
+.avatar.selected{
+border:2px solid #22c55e;
+background:#0f172a;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+border-radius:14px;
+background:#22c55e;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>Create Your Profile</h2>
+
+<input type="text" id="username" placeholder="Username">
+
+<input type="email" id="email" placeholder="Email" readonly>
+
+<input type="number" id="age" placeholder="Age">
+
+<input type="text" id="interest" placeholder="Interests">
+
+<h3>Select Character</h3>
+
+<div class="avatar-grid">
+
+<div class="avatar" onclick="pickAvatar(this,'char1.jpeg')">
+<img src="char1.jpeg">
+</div>
+
+<div class="avatar" onclick="pickAvatar(this,'char2.jpeg')">
+<img src="char2.jpeg">
+</div>
+
+<div class="avatar" onclick="pickAvatar(this,'char3.jpeg')">
+<img src="char3.jpeg">
+</div>
+
+<div class="avatar" onclick="pickAvatar(this,'char4.jpeg')">
+<img src="char4.jpeg">
+</div>
+
+<div class="avatar" onclick="pickAvatar(this,'char5.jpeg')">
+<img src="char5.jpeg">
+</div>
+
+</div>
+
+<button onclick="saveProfile()">Save Profile</button>
+
+</div>
+
+<script>
+document.getElementById("email").value =
+localStorage.getItem("email") || "";
+
+let chosenAvatar = "";
+
+function pickAvatar(el,img){
+
+document.querySelectorAll(".avatar").forEach(a=>{
+a.classList.remove("selected");
+});
+
+el.classList.add("selected");
+chosenAvatar = img;
+}
+
+function saveProfile(){
+
+const data = {
+username: document.getElementById("username").value,
+email: document.getElementById("email").value,
+age: document.getElementById("age").value,
+interest: document.getElementById("interest").value,
+avatar: chosenAvatar,
+studyTime: "0 hrs",
+groups: "0"
+};
+
+localStorage.setItem("profileData",JSON.stringify(data));
+
+window.location.href="profile.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="icon.jpeg" class="logo-img" alt="logo">
+    <span class="app-name">study2gether</span>
+  </div>
+  <div class="profile-circle" id="profileBtn">
+  
+  <img id="navAvatar" src="char1.jpeg">
+</div>
+  <div id="profilePanel" class="hidden profile-panel"></div>
+</nav>
+
+<div class="main-container">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search chats">
+    </div>
+
+    <!-- 🔥 REAL ROOMS HERE -->
+    <div id="roomList"></div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel" id="rightPanel">
+
+    <img src="panda.png" id="panda" class="panda">
+
+    <div class="options">
+      <button id="createBtn">Create Lobby</button>
+      <button id="joinBtn">Join Lobby</button>
+       <button id="exploreBtn" class="explore-btn">Explore 🌍</button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal hidden" id="createLobbyModal">
+  <div class="modal-box">
+    <h3>Create Study Lobby</h3>
+
+    <input type="text" id="lobbyName" placeholder="Lobby name">
+    <input type="text" id="subject" placeholder="Subject">
+
+    <div class="section">
+      <p>Study Mode</p>
+      <div class="choice-group">
+        <button class="choice active" data-mode="silent">Silent</button>
+        <button class="choice" data-mode="discussion">Discussion</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <p>Study Pace</p>
+      <div class="choice-group">
+        <button class="choice active" data-pace="slow">Slow</button>
+        <button class="choice" data-pace="moderate">Moderate</button>
+        <button class="choice" data-pace="fast">Fast</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <p>Privacy</p>
+      <div class="choice-group">
+        <button class="choice active" data-privacy="public">Public</button>
+        <button class="choice" data-privacy="private">Private</button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="cancel">Cancel</button>
+      <button class="create">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN POPUP -->
+<div id="joinPopup" class="popup hidden">
+  
+  <div class="popup-header">
+    <span>Join Lobby</span>
+    <button onclick="closePopup()">❌</button>
+  </div>
+
+  <input type="text" id="searchInputPopup" placeholder="Search lobby..." />
+  <div id="searchResults"></div>
+
+</div>
+<!-- ✅ EXPLORE POPUP -->
+<div id="explorePopup" class="popup hidden">
+
+  <div class="popup-header">
+    <span>Explore Rooms 🌍</span>
+    <button onclick="closeExplore()">❌</button>
+  </div>
+
+  <div class="popup-body">
+    <div id="exploreResults"></div>
+  </div>
+
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
